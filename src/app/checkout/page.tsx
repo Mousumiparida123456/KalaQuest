@@ -1,8 +1,7 @@
 'use client';
 
 import { useCart } from '@/hooks/use-cart';
-import { useEffect } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,13 +18,25 @@ export default function CheckoutPage() {
   const { cart, subtotal, cartCount, clearCart } = useCart();
   const { toast } = useToast();
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
 
-  if (cartCount === 0) {
-    // This part of the code is intentionally left simple for now.
-    // In a real app, you might want to show a more elaborate "empty cart" page.
-    setTimeout(() => {
-        router.push('/');
-    }, 0);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) {
+      return;
+    }
+
+    if (cartCount === 0) {
+      // This part of the code is intentionally left simple for now.
+      // In a real app, you might want to show a more elaborate "empty cart" page.
+      router.replace('/');
+    }
+  }, [cartCount, isMounted, router]);
+
+  if (!isMounted || cartCount === 0) {
     return null;
   }
 
