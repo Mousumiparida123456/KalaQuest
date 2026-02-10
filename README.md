@@ -2,7 +2,7 @@
 Kala Quest is an interactive web platform where users explore Indian heritage through story-based quests, culture-inspired games, and direct engagement with artisans, while supporting traditional crafts through a built-in marketplace and opportunities system.
 
 ## LIVE DEMO LINK
-Ã°Å¸â€â€” Live Demo: https://kalaquest.vercel.app
+ Live Demo: https://kalaquest.vercel.app
 
 ## Features
 - Mystery-driven quests with collectible clues
@@ -12,7 +12,7 @@ Kala Quest is an interactive web platform where users explore Indian heritage th
 - Heritage ledger for product history
 
 ## Platform Flow
-Login Ã¢â€ â€™ Dashboard Ã¢â€ â€™ Featured Crafts Ã¢â€ â€™ Story Quest Ã¢â€ â€™ Interactive Play Ã¢â€ â€™ Cultural Exploration Ã¢â€ â€™ Artisan Profiles Ã¢â€ â€™ Marketplace Ã¢â€ â€™ Opportunities
+Login → Dashboard → Featured Crafts → Story Quest → Interactive Play → Cultural Exploration → Artisan Profiles → Marketplace → Opportunities
 
 ## Screenshots
 ### Home Page
