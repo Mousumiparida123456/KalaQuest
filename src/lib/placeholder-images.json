@@ -1,0 +1,268 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A vintage desk with a map, compass, and magnifying glass.",
+      "imageUrl": "https://images.unsplash.com/photo-1578403881967-084f9885be74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx2aW50YWdlJTIwbWFwfGVufDB8fHx8MTc3MDQ0MjkwOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vintage map"
+    },
+    {
+      "id": "artisan-1",
+      "description": "Portrait of an Indian potter.",
+      "imageUrl": "https://images.unsplash.com/photo-1607867810523-d10955f2a8df?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxpbmRpYW4lMjBwb3R0ZXJ8ZW58MHx8fHwxNzcwNTM3MjUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian potter"
+    },
+    {
+      "id": "artisan-2",
+      "description": "Portrait of an Indian weaver.",
+      "imageUrl": "https://images.unsplash.com/photo-1640292343595-889db1c8262e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjB3ZWF2ZXJ8ZW58MHx8fHwxNzcwNTM3MjUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian weaver"
+    },
+    {
+      "id": "artisan-3",
+      "description": "Portrait of an Indian painter.",
+      "imageUrl": "https://images.unsplash.com/photo-1574787929826-e9fe3121b558?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxpbmRpYW4lMjBwYWludGVyfGVufDB8fHx8MTc3MDUzNzI1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian painter"
+    },
+    {
+      "id": "artisan-4",
+      "description": "Portrait of a wood carver.",
+      "imageUrl": "https://images.unsplash.com/photo-1711397988227-25007b403383?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3b29kJTIwY2FydmVyfGVufDB8fHx8MTc3MDUzNzI1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wood carver"
+    },
+    {
+      "id": "artisan-5",
+      "description": "Indian artisan working with terracotta.",
+      "imageUrl": "https://images.unsplash.com/photo-1769425105617-114c524231ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx0ZXJyYWNvdHRhJTIwcG90dGVyeXxlbnwwfHx8fDE3NzA1NjkyMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "terracotta pottery"
+    },
+    {
+      "id": "artisan-6",
+      "description": "Indian artisan making traditional shoes.",
+      "imageUrl": "https://images.unsplash.com/photo-1706186101257-818a4bbfd8bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjBzaG9lbWFrZXJ8ZW58MHx8fHwxNzcwNTY5MjMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian shoemaker"
+    },
+    {
+      "id": "artisan-7",
+      "description": "Indian woman working with textiles.",
+      "imageUrl": "https://images.unsplash.com/photo-1753162657332-31aceacea96b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx0ZXh0aWxlJTIwYXJ0aXN0fGVufDB8fHx8MTc3MDU2OTIzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "textile artist"
+    },
+    {
+      "id": "artisan-8",
+      "description": "Indian metalworker.",
+      "imageUrl": "https://images.unsplash.com/photo-1764114909312-c27b89ec7223?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxpbmRpYW4lMjBtZXRhbHdvcmtlcnxlbnwwfHx8fDE3NzA1NjkyMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian metalworker"
+    },
+    {
+      "id": "artisan-9",
+      "description": "Indian woman doing appliqué.",
+      "imageUrl": "https://images.unsplash.com/photo-1652722426884-647880c63bf1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxpbmRpYW4lMjBlbWJyb2lkZXJ5fGVufDB8fHx8MTc3MDU2OTIzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian embroidery"
+    },
+    {
+      "id": "artisan-10",
+      "description": "Indian artisan painting with a pen.",
+      "imageUrl": "https://images.unsplash.com/photo-1767170876219-b52255355c86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxpbmRpYW4lMjBwYWludGVyfGVufDB8fHx8MTc3MDUzNzI1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian painter"
+    },
+    {
+      "id": "artisan-11",
+      "description": "Close up of zardozi embroidery.",
+      "imageUrl": "https://picsum.photos/seed/artisan11/400/400",
+      "imageHint": "zardozi embroidery"
+    },
+    {
+      "id": "artisan-12",
+      "description": "Bidriware artifact.",
+      "imageUrl": "https://images.unsplash.com/photo-1648076242590-5231ec9b902e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxtZXRhbCUyMGFydHxlbnwwfHx8fDE3NzA1NjkyMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "metal art"
+    },
+    {
+      "id": "artisan-13",
+      "description": "Weaving coir mats.",
+      "imageUrl": "https://images.unsplash.com/photo-1660338535538-3df16cb251ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxjb2lyJTIwbWF0fGVufDB8fHx8MTc3MDU2OTIzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "coir mat"
+    },
+    {
+      "id": "artisan-14",
+      "description": "Colorful wooden toys.",
+      "imageUrl": "https://images.unsplash.com/photo-1560859251-d563a49c5e4a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8d29vZGVuJTIwdG95c3xlbnwwfHx8fDE3NzA1NjkyMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden toys"
+    },
+    {
+      "id": "product-1",
+      "description": "Blue pottery vase.",
+      "imageUrl": "https://images.unsplash.com/photo-1612646444409-ded6a340899f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxibHVlJTIwcG90dGVyeXxlbnwwfHx8fDE3NzA1Mjc4MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blue pottery"
+    },
+    {
+      "id": "product-2",
+      "description": "Handwoven pashmina shawl.",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1561057657-ef2963ef83a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwYXNobWluYSUyMHNoYXdsfGVufDB8fHx8MTc3MDUzNzI1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pashmina shawl"
+    },
+    {
+      "id": "product-3",
+      "description": "Madhubani painting of fish.",
+      "imageUrl": "https://images.unsplash.com/photo-1719498481691-d78f24dcff1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtYWRodWJhbmklMjBwYWludGluZ3xlbnwwfHx8fDE3NzA1MzcyNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "madhubani painting"
+    },
+    {
+      "id": "product-4",
+      "description": "Carved wooden elephant statue.",
+      "imageUrl": "https://images.unsplash.com/photo-1739281467979-813684cd2877?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx3b29kZW4lMjBlbGVwaGFudHxlbnwwfHx8fDE3NzA1MzcyNTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden elephant"
+    },
+    {
+      "id": "product-5",
+      "description": "Terracotta clay pot.",
+      "imageUrl": "https://images.unsplash.com/photo-1652473509334-dff5f6650598?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0ZXJyYWNvdHRhJTIwcG90fGVufDB8fHx8MTc3MDUzNzI1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "terracotta pot"
+    },
+    {
+      "id": "product-6",
+      "description": "Colorful handwoven rug.",
+      "imageUrl": "https://images.unsplash.com/photo-1589295780517-dc44e5f0e2a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxpbmRpYW4lMjBydWd8ZW58MHx8fHwxNzcwNTM3MjUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian rug"
+    },
+    {
+      "id": "product-7",
+      "description": "Miniature painting of a royal court.",
+      "imageUrl": "https://images.unsplash.com/photo-1759126264988-9ef8463fcccb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxtdWdoYWwlMjBwYWludGluZ3xlbnwwfHx8fDE3NzA1MzcyNTJ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "mughal painting"
+    },
+    {
+      "id": "product-8",
+      "description": "Sandalwood jewelry box.",
+      "imageUrl": "https://images.unsplash.com/photo-1654700194896-6318cdc3b184?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8amV3ZWxyeSUyMGJveHxlbnwwfHx8fDE3NzA0ODU4MzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "jewelry box"
+    },
+    {
+      "id": "product-9",
+      "description": "Set of terracotta bowls",
+      "imageUrl": "https://images.unsplash.com/photo-1557813136-69f849d6b7b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0ZXJyYWNvdHRhJTIwYm93bHN8ZW58MHx8fHwxNzcxMTgzNTMwfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "terracotta bowls"
+    },
+    {
+      "id": "product-10",
+      "description": "Traditional Indian Mojari shoes",
+      "imageUrl": "https://images.unsplash.com/photo-1629822435889-a8c430968987?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb2phcmklMjBzaG9lc3xlbnwwfHx8fDE3NzExODM1MzB8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "indian shoes"
+    },
+    {
+      "id": "product-11",
+      "description": "Colorful Bandhani tie-dye scarf",
+      "imageUrl": "https://images.unsplash.com/photo-1620755938883-4a1b8a5e3c7c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxiYW5kaGFuaXxlbnwwfHx8fDE3NzExODM1MzB8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "tie-dye scarf"
+    },
+    {
+      "id": "product-12",
+      "description": "Tarkashi Keepsake Box",
+      "imageUrl": "https://images.unsplash.com/photo-1696023789157-28e36b8a6505?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx3b29kZW4lMjBib3h8ZW58MHx8fHwxNzcwNjMxOTEzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden box"
+    },
+    {
+      "id": "product-13",
+      "description": "Vibrant Pipli appliqué wall art",
+      "imageUrl": "https://images.unsplash.com/photo-1595015798933-728b77caf644?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb2xvcmZ1bCUyMHRhcGVzdHJ5fGVufDB8fHx8MTc3MTE4MzUzMHww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "colorful tapestry"
+    },
+    {
+      "id": "product-14",
+      "description": "Kalamkari painted fabric",
+      "imageUrl": "https://images.unsplash.com/photo-1762173886363-de541417e48e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrYWxhbWthcmklMjBmYWJyaWN8ZW58MHx8fHwxNzcwNTY5NTAzfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "kalamkari fabric"
+    },
+    {
+      "id": "product-15",
+      "description": "Zardozi embroidered clutch purse",
+      "imageUrl": "https://images.unsplash.com/photo-1726197847318-e4bd469af258?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxlbWJyb2lkZXJlZCUyMHB1cnNlfGVufDB8fHx8MTc3MDU2OTUwM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "embroidered purse"
+    },
+    {
+      "id": "product-16",
+      "description": "Bidriware metal vase",
+      "imageUrl": "https://images.unsplash.com/photo-1763475944949-0715c3f8780f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtZXRhbCUyMHZhc2V8ZW58MHx8fHwxNzcwNTE1MjAxfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "metal vase"
+    },
+    {
+      "id": "product-17",
+      "description": "'Welcome' Coir Doormat",
+      "imageUrl": "https://images.unsplash.com/photo-1540927510362-30743a8621c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb2lyJTIwbWF0fGVufDB8fHx8MTc3MDU2OTIzMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "coir mat"
+    },
+    {
+      "id": "product-18",
+      "description": "Set of 5 Channapatna Spinning Tops",
+      "imageUrl": "https://images.unsplash.com/photo-1568828668638-b1b4014d91a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b29kZW4lMjB0b3lzfGVufDB8fHx8MTc3MDU2OTIzMHww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "wooden toys"
+    },
+    {
+      "id": "amphora-jar",
+      "description": "A terracotta amphora jar with black figures.",
+      "imageUrl": "https://images.unsplash.com/photo-1578616297344-1a6c0a7d51b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxncmVlayUyMHZhc2V8ZW58MHx8fHwxNzcwNTM3MjUzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "greek vase"
+    },
+    {
+      "id": "fact-taj-mahal",
+      "description": "The Taj Mahal at sunrise.",
+      "imageUrl": "https://images.unsplash.com/photo-1564507592333-c60657eea523?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0YWolMjBtYWhhbHxlbnwwfHx8fDE3NzEwOTMyNjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "taj mahal"
+    },
+    {
+      "id": "fact-qutub-minar",
+      "description": "The Qutub Minar tower in Delhi.",
+      "imageUrl": "https://images.unsplash.com/photo-1557925187-b52e4b415b3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxxdXR1YiUyMG1pbmFyfGVufDB8fHx8MTc3MTA5MzI2N3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "qutub minar"
+    },
+    {
+      "id": "fact-hawa-mahal",
+      "description": "The facade of the Hawa Mahal in Jaipur.",
+      "imageUrl": "https://images.unsplash.com/photo-1599837563057-76b32b85a3c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoYXdhJTIwbWFoYWx8ZW58MHx8fHwxNzcxMDkzMjY3fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "hawa mahal"
+    },
+    {
+      "id": "fact-ajanta-ellora",
+      "description": "Carvings at the Ajanta and Ellora Caves.",
+      "imageUrl": "https://images.unsplash.com/photo-1616499824223-99a38f3f269a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhamFudGElMjBjYXZlc3xlbnwwfHx8fDE3NzEwOTMyNjh8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "ajanta caves"
+    },
+    {
+      "id": "fact-meenakshi-temple",
+      "description": "Gopurams of the Meenakshi Temple in Madurai.",
+      "imageUrl": "https://images.unsplash.com/photo-1596172088846-512c0b7849e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZWVuYWtzaGklMjB0ZW1wbGV8ZW58MHx8fHwxNzcxMDkzMjY4fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "meenakshi temple"
+    },
+    {
+      "id": "fact-hampi",
+      "description": "The stone chariot at Hampi.",
+      "imageUrl": "https://images.unsplash.com/photo-1582236923434-297593c66f54?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoYW1waXxlbnwwfHx8fDE3NzEwOTMyNjh8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "hampi ruins"
+    },
+    {
+      "id": "fact-kerala-backwaters",
+      "description": "A houseboat on the Kerala Backwaters.",
+      "imageUrl": "https://images.unsplash.com/photo-1602216056096-3b40402e9a59?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrZXJhbGElMjBiYWNrd2F0ZXJzfGVufDB8fHx8MTc3MTA5MzI2OXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "kerala backwaters"
+    },
+    {
+      "id": "fact-victoria-memorial",
+      "description": "The Victoria Memorial in Kolkata.",
+      "imageUrl": "https://images.unsplash.com/photo-1555511257-23a3e9455322?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx2aWN0b3JpYSUyMG1lbW9yaWFsfGVufDB8fHx8MTc3MTA5MzI2OXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "kolkata architecture"
+    },
+    {
+      "id": "fact-rani-ki-vav",
+      "description": "Intricate carvings inside Rani ki Vav.",
+      "imageUrl": "https://images.unsplash.com/photo-1683935293699-07b819e85573?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyYW5pJTIwa2klMjB2YXZ8ZW58MHx8fHwxNzcxMDkzMjY5fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient stepwell"
+    },
+    {
+      "id": "fact-konark-temple",
+      "description": "A stone wheel of the Konark Sun Temple.",
+      "imageUrl": "https://images.unsplash.com/photo-1594488544975-d14358897a89?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrb25hcmtlMjBzdW4lMjB0ZW1wbGV8ZW58MHx8fHwxNzcxMDkzMjcwfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "konark sun temple"
+    }
+  ]
+}

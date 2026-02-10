@@ -1,0 +1,183 @@
+rules_version = '2';
+
+/**
+ * # Firestore Security Rules
+ *
+ * ## Core Philosophy
+ * This ruleset enforces a strict user-ownership model for private data, while allowing public read access for shared content like artisan profiles and game quests. The primary goal is to ensure that users can only access and modify their own information (profiles, orders, quest progress), preventing any unauthorized access to other users' data.
+ *
+ * ## Data Structure
+ * The data is organized hierarchically to reflect ownership clearly:
+ * - All private user data is nested under `/users/{userId}`. This includes their profile, orders, and quest progress.
+ * - Publicly viewable content, such as artisan profiles and products, are stored in top-level collections like `/artisans`.
+ * - Game content, like quests and clues, is also stored in top-level collections for universal access.
+ *
+ * ## Key Security Decisions
+ * - **Default Deny:** Access is denied by default. Rules only grant permission explicitly.
+ * - **No User Listing:** The top-level `/users` collection cannot be listed by clients to protect user privacy.
+ * - **Ownership-Based Writes:** All write operations (create, update, delete) are strictly controlled by ownership checks. A user must be authenticated and their UID must match the relevant document's owner ID.
+ * - **Admin-Managed Content:** Content like quests and clues is considered read-only for clients. It is assumed these are managed via the Firebase Console or a trusted server-side Admin SDK.
+ * - **Denormalization for Security:** Authorization fields (e.g., `userId` on orders) are denormalized onto documents. This avoids slow, insecure, and costly `get()` calls in rules, leading to better performance and stronger security.
+ *
+ * ## Critical Schema Requirement for Artisans
+ * The `/artisans` and `/artisans/{artisanId}/products` collections are currently configured as read-only because the `Artisan` entity is missing an `ownerId` or `userId` field. To enable artisans to manage their own profiles and products, you must add a field to the `Artisan` document that links it to a user's auth UID and update the corresponding rules.
+ */
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for concise and readable rules
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Checks if the requesting user's UID matches the provided userId.
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Ensures a document exists before an update/delete and verifies ownership.
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    /**
+     * @description Rules for a user's profile document. A user can create their own profile,
+     *   and can only read, update, or delete their own document.
+     * @path /users/{userId}
+     * @allow A signed-in user (auth.uid: 'user123') can (create) their own profile at `/users/user123`.
+     * @deny An anonymous user cannot (get) any user profile. A user (auth.uid: 'user456') cannot (update) another user's profile at `/users/user123`.
+     * @principle Enforces Self-Creation and strict document Ownership for private data.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for artisan profiles. This data is public for anyone to read.
+     *   Writes are currently disabled because the data model is missing a link
+     *   between an artisan and a user account.
+     * @path /artisans/{artisanId}
+     * @allow Any user, including anonymous, can (get) or (list) artisan profiles.
+     * @deny Any user (auth.uid: 'user123') cannot (create) a new artisan profile.
+     * @principle Implements Public Read access. Writes are denied pending a schema update.
+     */
+    match /artisans/{artisanId} {
+      allow get: if true;
+      allow list: if true;
+      // CRITICAL: Cannot implement owner-only writes. The 'Artisan' entity is missing an 'ownerId' or 'userId' field.
+      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+    }
+
+    /**
+     * @description Rules for products, which are subcollections of artisans. Products are public to view.
+     *   Writes are disabled because the parent artisan's ownership cannot be determined.
+     * @path /artisans/{artisanId}/products/{productId}
+     * @allow Any user can (get) or (list) products for a given artisan.
+     * @deny Any authenticated user cannot (create) a new product for any artisan.
+     * @principle Inherits the security posture of its parent; Public Read with writes disabled.
+     */
+    match /artisans/{artisanId}/products/{productId} {
+      allow get: if true;
+      allow list: if true;
+      // CRITICAL: Writes are disabled because the parent 'Artisan' cannot be linked to an authenticated user.
+      allow create, update, delete: if false; // TODO: Add owner validation after parent 'Artisan' schema is updated.
+    }
+
+    /**
+     * @description Rules for a user's orders. A user can only access their own orders.
+     * @path /users/{userId}/orders/{orderId}
+     * @allow User (auth.uid: 'user123') can (create) an order at `/users/user123/orders/order456`.
+     * @deny User (auth.uid: 'user456') cannot (get) an order at `/users/user123/orders/order456`.
+     * @principle Restricts access to a user's own data tree using path-based ownership.
+     */
+    match /users/{userId}/orders/{orderId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Rules for items within an order. Access is inherited from the parent order.
+       *   Note: The path provided in the documentation (`/orders/{orderId}/order_items/...`) was insecure
+       *   as it's disconnected from the user. This path is used instead to enforce ownership.
+       * @path /users/{userId}/orders/{orderId}/order_items/{orderItemId}
+       * @allow User (auth.uid: 'user123') can (get) an order item at `/users/user123/orders/order456/order_items/item789`.
+       * @deny User (auth.uid: 'user456') cannot (list) order items from another user's order.
+       * @principle Inherits strict ownership from the parent document's path.
+       */
+      match /order_items/{orderItemId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId);
+        allow update: if isExistingOwner(userId);
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+
+    /**
+     * @description Rules for public game quests. This content is readable by everyone.
+     *   Writes are disallowed from the client, as quests are managed by administrators.
+     * @path /quests/{questId}
+     * @allow Any user, including anonymous, can (get) or (list) quests.
+     * @deny Any user cannot (create) a new quest.
+     * @principle Implements Public Read with Admin-Only Writes.
+     */
+    match /quests/{questId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+
+      /**
+       * @description Rules for clues within a quest. Also public and read-only for clients.
+       * @path /quests/{questId}/clues/{clueId}
+       * @allow Any user can (get) a clue.
+       * @deny Any user cannot (create) a new clue.
+       * @principle Inherits the Public Read, Admin-Write model from its parent.
+       */
+      match /clues/{clueId} {
+        allow get: if true;
+        allow list: if true;
+        allow create: if false;
+        allow update: if false;
+        allow delete: if false;
+      }
+    }
+
+    /**
+     * @description Rules for a user's quest progress. This data is private and can only
+     *   be managed by the user themselves.
+     * @path /users/{userId}/quest_progress/{progressId}
+     * @allow User (auth.uid: 'user123') can (create) their progress at `/users/user123/quest_progress/progress456`.
+     * @deny User (auth.uid: 'user456') cannot (get) progress at `/users/user123/quest_progress/progress456`.
+     * @principle Restricts access to a user's own data tree using path-based ownership.
+     */
+    match /users/{userId}/quest_progress/{progressId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+    
+    /**
+     * @description Rules for job opportunities. This data is public for anyone to read.
+     *   Writes should be restricted to admin roles in a real application.
+     * @path /opportunities/{jobId}
+     * @allow Any user can (get) or (list) job opportunities.
+     * @deny Any user cannot (create) a job posting.
+     * @principle Implements Public Read with Admin-Only Writes.
+     */
+    match /opportunities/{jobId} {
+      allow get: if true;
+      allow list: if true;
+      allow create, update, delete: if false; // TODO: Implement admin-only writes.
+    }
+  }
+}

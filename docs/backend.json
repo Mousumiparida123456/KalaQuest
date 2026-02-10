@@ -1,0 +1,547 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the Heritage Hunt platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "username": {
+          "type": "string",
+          "description": "User's chosen username on the platform."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address for communication and account recovery.",
+          "format": "email"
+        },
+        "joinDate": {
+          "type": "string",
+          "description": "Date and time when the user joined the platform.",
+          "format": "date-time"
+        },
+        "profileImageUrl": {
+          "type": "string",
+          "description": "URL of the user's profile image.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "email",
+        "joinDate"
+      ]
+    },
+    "Artisan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Artisan",
+      "type": "object",
+      "description": "Represents an artisan who showcases and sells their crafts on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Artisan entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the artisan or their business."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the artisan's craft and background."
+        },
+        "location": {
+          "type": "string",
+          "description": "Geographical location of the artisan's workshop or business."
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Email address for contacting the artisan.",
+          "format": "email"
+        },
+        "websiteUrl": {
+          "type": "string",
+          "description": "URL of the artisan's website or online portfolio.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "location"
+      ]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product offered by an artisan on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Product entity."
+        },
+        "artisanId": {
+          "type": "string",
+          "description": "Reference to Artisan. (Relationship: Artisan 1:N Product)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the product."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the product, including materials and craftsmanship."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the product."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the product's image.",
+          "format": "uri"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the product (e.g., painting, sculpture, textile)."
+        },
+        "stockQuantity": {
+          "type": "number",
+          "description": "The current stock quantity available for a product."
+        }
+      },
+      "required": [
+        "id",
+        "artisanId",
+        "name",
+        "description",
+        "price",
+        "imageUrl",
+        "category"
+      ]
+    },
+    "Order": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Order",
+      "type": "object",
+      "description": "Represents an order placed by a user on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Order entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Order)"
+        },
+        "orderDate": {
+          "type": "string",
+          "description": "Date and time when the order was placed.",
+          "format": "date-time"
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "Total amount of the order."
+        },
+        "shippingAddress": {
+          "type": "string",
+          "description": "Shipping address for the order."
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the order (e.g., pending, processing, shipped, delivered)."
+        },
+        "orderItemIds": {
+          "type": "array",
+          "description": "References to OrderItem. (Relationship: Order 1:N OrderItem)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "orderDate",
+        "totalAmount",
+        "shippingAddress",
+        "status"
+      ]
+    },
+    "OrderItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "OrderItem",
+      "type": "object",
+      "description": "Represents an item within an order.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the OrderItem entity."
+        },
+        "productId": {
+          "type": "string",
+          "description": "Reference to Product. (Relationship: Product 1:N OrderItem)"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of the product in the order item."
+        },
+        "price": {
+          "type": "number",
+          "description": "Price of the product at the time of the order."
+        }
+      },
+      "required": [
+        "id",
+        "productId",
+        "quantity",
+        "price"
+      ]
+    },
+    "Quest": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quest",
+      "type": "object",
+      "description": "Represents a quest or mystery within the gamified platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quest entity."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the quest."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the quest, including its objectives and background story."
+        },
+        "rewardPoints": {
+          "type": "number",
+          "description": "Reward points earned upon completion of the quest."
+        },
+        "clueIds": {
+          "type": "array",
+          "description": "References to Clue. (Relationship: Quest 1:N Clue)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "rewardPoints"
+      ]
+    },
+    "Clue": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Clue",
+      "type": "object",
+      "description": "Represents a clue within a quest.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Clue entity."
+        },
+        "questId": {
+          "type": "string",
+          "description": "Reference to Quest. (Relationship: Quest 1:N Clue)"
+        },
+        "text": {
+          "type": "string",
+          "description": "Text of the clue."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of an image associated with the clue.",
+          "format": "uri"
+        },
+        "locationHint": {
+          "type": "string",
+          "description": "Hint about the location of the clue."
+        }
+      },
+      "required": [
+        "id",
+        "questId",
+        "text"
+      ]
+    },
+    "UserQuestProgress": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserQuestProgress",
+      "type": "object",
+      "description": "Represents the progress of a user in a specific quest.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserQuestProgress entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N UserQuestProgress)"
+        },
+        "questId": {
+          "type": "string",
+          "description": "Reference to Quest. (Relationship: Quest 1:N UserQuestProgress)"
+        },
+        "completionDate": {
+          "type": "string",
+          "description": "Date and time when the user completed the quest.",
+          "format": "date-time"
+        },
+        "isCompleted": {
+          "type": "boolean",
+          "description": "Indicates whether the user has completed the quest."
+        },
+        "unlockedClueIds": {
+          "type": "array",
+          "description": "References to Clue. (Relationship: UserQuestProgress 1:N Clue) - Clues unlocked in this specific quest progress",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "questId",
+        "isCompleted"
+      ]
+    },
+    "JobOpportunity": {
+      "title": "Job Opportunity",
+      "type": "object",
+      "description": "Represents a job opportunity or contract work for artisans.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the job opportunity."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the job."
+        },
+        "company": {
+          "type": "string",
+          "description": "The name of the company or individual posting the job."
+        },
+        "location": {
+          "type": "string",
+          "description": "The location of the job."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the job and requirements."
+        },
+        "employmentType": {
+          "type": "string",
+          "description": "Type of employment (e.g., Contract, Full-time, Part-time, Freelance)."
+        },
+        "postedDate": {
+          "type": "string",
+          "description": "The date the job was posted.",
+          "format": "date"
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Email for applications.",
+          "format": "email"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "company",
+        "location",
+        "description",
+        "employmentType",
+        "postedDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile information. Uses path-based ownership for private user data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/artisans/{artisanId}",
+        "definition": {
+          "entityName": "Artisan",
+          "schema": {
+            "$ref": "#/backend/entities/Artisan"
+          },
+          "description": "Stores artisan profile information.",
+          "params": [
+            {
+              "name": "artisanId",
+              "description": "The unique identifier of the artisan."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/artisans/{artisanId}/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": {
+            "$ref": "#/backend/entities/Product"
+          },
+          "description": "Stores product information, nested under the artisan's document. Includes denormalized 'artisanId' for authorization independence.",
+          "params": [
+            {
+              "name": "artisanId",
+              "description": "The unique identifier of the artisan."
+            },
+            {
+              "name": "productId",
+              "description": "The unique identifier of the product."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/orders/{orderId}",
+        "definition": {
+          "entityName": "Order",
+          "schema": {
+            "$ref": "#/backend/entities/Order"
+          },
+          "description": "Stores order information, nested under the user's document. Includes denormalized 'userId' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "orderId",
+              "description": "The unique identifier of the order."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/orders/{orderId}/order_items/{orderItemId}",
+        "definition": {
+          "entityName": "OrderItem",
+          "schema": {
+            "$ref": "#/backend/entities/OrderItem"
+          },
+          "description": "Stores order item information, nested under the order's document.",
+          "params": [
+            {
+              "name": "orderId",
+              "description": "The unique identifier of the order."
+            },
+            {
+              "name": "orderItemId",
+              "description": "The unique identifier of the order item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quests/{questId}",
+        "definition": {
+          "entityName": "Quest",
+          "schema": {
+            "$ref": "#/backend/entities/Quest"
+          },
+          "description": "Stores quest information.",
+          "params": [
+            {
+              "name": "questId",
+              "description": "The unique identifier of the quest."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/quests/{questId}/clues/{clueId}",
+        "definition": {
+          "entityName": "Clue",
+          "schema": {
+            "$ref": "#/backend/entities/Clue"
+          },
+          "description": "Stores clue information, nested under the quest's document. Includes denormalized 'questId' for authorization independence.",
+          "params": [
+            {
+              "name": "questId",
+              "description": "The unique identifier of the quest."
+            },
+            {
+              "name": "clueId",
+              "description": "The unique identifier of the clue."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/quest_progress/{progressId}",
+        "definition": {
+          "entityName": "UserQuestProgress",
+          "schema": {
+            "$ref": "#/backend/entities/UserQuestProgress"
+          },
+          "description": "Stores user's progress in a quest, nested under the user's document. Includes denormalized 'userId' for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "progressId",
+              "description": "The unique identifier of the user quest progress."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/opportunities/{jobId}",
+        "definition": {
+          "entityName": "JobOpportunity",
+          "schema": {
+            "$ref": "#/backend/entities/JobOpportunity"
+          },
+          "description": "Stores job opportunities for artisans.",
+          "params": [
+            {
+              "name": "jobId",
+              "description": "The unique identifier of the job."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the Heritage Hunt platform, emphasizing authorization independence, clarity, and scalability. It leverages denormalization, structural segregation, and consistent access modeling to achieve these goals.\n\n**Authorization Independence:**\n\n*   For entities like `Product` which depend on `Artisan` ownership, the `artisanId` is denormalized within the `Product` document. This allows security rules to validate product access based on the presence of the `artisanId` without needing to perform costly and limiting `get()` operations to fetch the artisan's data.\n*   Similarly, `Order` documents denormalize `userId`, ensuring direct ownership checks without requiring external lookups.\n*   `Clue` documents include `questId` for similar reasons.\n\n**Structural Segregation:**\n\n*   The data is segregated based on ownership. User-specific data (e.g., `Order`, `UserQuestProgress`) is stored under the `/users/{userId}` path, enforcing clear ownership boundaries.\n*   Artisan-owned products are stored under `/artisans/{artisanId}/products/{productId}` to maintain ownership and prevent mixing data with different access needs in a single collection.\n\n**Access Modeling:**\n\n*   **Path-Based Ownership:** User-specific data like orders and quest progress uses path-based ownership (`/users/{userId}/orders/{orderId}`, `/users/{userId}/quest_progress/{progressId}`).\n*   **Hierarchical Paths:** The data structure continues hierarchy for nested data. For example, products are located under the artisan's document, forming the path `/artisans/{artisanId}/products/{productId}`.\n\n**QAPs (Rules Are Not Filters):**\n\n*   The structural segregation, combined with path-based ownership, directly supports secure `list` operations. Rules can easily allow a user to list their own orders under `/users/{userId}/orders` without exposing others' data or requiring filtering.\n*   Similarly, an artisan can list their products under `/artisans/{artisanId}/products` without the risk of unauthorized access.\n\nThis design facilitates simple, robust, and easily debuggable security rules by minimizing hierarchical dependencies and clarifying authorization intent."
+  }
+}
