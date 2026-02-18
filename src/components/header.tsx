@@ -15,7 +15,8 @@ import { Skeleton } from "./ui/skeleton";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/mystery-stories", label: "Mystery Stories & Fun Facts" },
+  { href: "/plan-visit", label: "Plan a Visit" },
+  { href: "/mystery-stories", label: "Mystery Stories & Art Forms" },
   { href: "/artisans", label: "Artisans" },
   { href: "/marketplace", label: "Marketplace" },
   { href: "/opportunities", label: "Opportunities" },
@@ -44,16 +45,14 @@ export function Header() {
         </Link>
       </Button>
     );
-  }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Palette className="h-6 w-6 text-primary" />
-          <span className="font-headline text-xl font-semibold tracking-wide">
-            Kala Quest
-          </span>
+          <span className="font-headline text-xl font-semibold tracking-wide">Kala Quest</span>
         </Link>
         <div className="flex items-center gap-2">
           <nav className="hidden items-center gap-6 md:flex">
@@ -70,21 +69,21 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          
+
           <Sheet>
             <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                    <ShoppingCart className="h-6 w-6" />
-                    {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs text-accent-foreground">
-                            {cartCount}
-                        </span>
-                    )}
-                    <span className="sr-only">Open Cart</span>
-                </Button>
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="h-6 w-6" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-accent text-xs text-accent-foreground">
+                    {cartCount}
+                  </span>
+                )}
+                <span className="sr-only">Open Cart</span>
+              </Button>
             </SheetTrigger>
             <SheetContent className="flex flex-col">
-                <Cart />
+              <Cart />
             </SheetContent>
           </Sheet>
 
@@ -100,11 +99,9 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right" className="w-[300px] sm:w-[400px]">
                 <div className="p-4">
-                  <Link href="/" className="flex items-center gap-2 mb-8" onClick={() => setMobileMenuOpen(false)}>
+                  <Link href="/" className="mb-8 flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                     <Palette className="h-6 w-6 text-primary" />
-                    <span className="font-headline text-xl font-semibold tracking-wide">
-                      Kala Quest
-                    </span>
+                    <span className="font-headline text-xl font-semibold tracking-wide">Kala Quest</span>
                   </Link>
                   <nav className="flex flex-col gap-6">
                     {navItems.map((item) => (

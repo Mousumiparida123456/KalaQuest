@@ -49,39 +49,39 @@ export default function Home() {
 
       <section id="featured-crafts" className="w-full bg-muted/40 py-16">
         <div className="container mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-headline tracking-wide mb-4">Featured Crafts</h2>
-            <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80 mb-12">
-                A curated collection of authentic, handcrafted treasures. Each piece tells a story.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-                {featuredProducts.map(product => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-            </div>
-            <Button asChild>
-                <Link href="/marketplace">
-                    Go to Marketplace <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-            </Button>
+          <h2 className="text-4xl md:text-5xl font-headline tracking-wide mb-4">Featured Crafts</h2>
+          <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80 mb-12">
+            A curated collection of authentic, handcrafted treasures. Each piece tells a story.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+          <Button asChild>
+            <Link href="/marketplace">
+              Go to Marketplace <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
 
       <section id="current-mystery" className="w-full max-w-5xl p-4 md:p-8 my-12">
-         <h2 className="text-4xl md:text-5xl font-headline tracking-wide mb-12 text-center">Your Current Quest</h2>
+        <h2 className="text-4xl md:text-5xl font-headline tracking-wide mb-12 text-center">Your Current Quest</h2>
         <Quiz />
       </section>
 
       <section id="play" className="w-full max-w-7xl p-4 md:p-8 my-12">
         <h2 className="text-4xl md:text-5xl font-headline tracking-wide mb-4 text-center">Play with Heritage</h2>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-foreground/80 mb-12 text-center">
-            Engage with culture in a new way through games and activities.
+          Engage with culture in a new way through games and activities.
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
-            <PlayCard icon={Music} title="Music" href="/music" />
-            <PlayCard icon={Puzzle} title="Puzzle" href="/puzzle" />
-            <PlayCard icon={PenSquare} title="Crossword" href="/crossword" />
-            <PlayCard icon={Palette} title="Coloring" href="/coloring" />
-            <PlayCard icon={Compass} title="Adventure" href="/adventure" />
+          <PlayCard icon={Music} title="Music" href="/music" />
+          <PlayCard icon={Puzzle} title="Puzzle" href="/puzzle" />
+          <PlayCard icon={PenSquare} title="Crossword" href="/crossword" />
+          <PlayCard icon={Palette} title="Coloring" href="/coloring" />
+          <PlayCard icon={Compass} title="Adventure" href="/adventure" />
         </div>
       </section>
     </div>

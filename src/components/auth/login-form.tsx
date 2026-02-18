@@ -19,6 +19,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PasswordInput } from '../ui/password-input';
 import { useAuth } from '@/firebase';
+import { cn } from '@/lib/utils';
+
+type LoginRole = 'user' | 'artisan';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -33,6 +36,7 @@ export function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState<LoginRole>('user');
   const auth = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,11 +51,17 @@ export function LoginForm() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
+
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('loginRole', role);
+      }
+
       toast({
         title: 'Login Successful',
-        description: "Welcome back!",
+        description: role === 'artisan' ? 'Welcome back, artisan.' : 'Welcome back!',
       });
-      router.push('/account');
+
+      router.push(role === 'artisan' ? '/artisan-account' : '/account');
     } catch (error: any) {
       console.error(error);
       toast({
@@ -67,6 +77,28 @@ export function LoginForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-2">
+          <FormLabel>Login As</FormLabel>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              type="button"
+              variant={role === 'user' ? 'default' : 'outline'}
+              onClick={() => setRole('user')}
+              className={cn('w-full')}
+            >
+              User
+            </Button>
+            <Button
+              type="button"
+              variant={role === 'artisan' ? 'default' : 'outline'}
+              onClick={() => setRole('artisan')}
+              className={cn('w-full')}
+            >
+              Artisan
+            </Button>
+          </div>
+        </div>
+
         <FormField
           control={form.control}
           name="email"
@@ -87,18 +119,16 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="••••••••" {...field} />
+                <PasswordInput placeholder="********" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Signing In...' : 'Sign In'}
+          {isLoading ? 'Signing In...' : `Sign In as ${role === 'artisan' ? 'Artisan' : 'User'}`}
         </Button>
       </form>
     </Form>
   );
 }
-
-    

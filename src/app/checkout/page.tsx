@@ -13,42 +13,71 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { CreditCard, Truck } from 'lucide-react';
 import Link from 'next/link';
+import { useUser } from '@/firebase/auth/use-user';
 
 export default function CheckoutPage() {
-  const { cart, subtotal, cartCount, clearCart } = useCart();
+  const { cart, subtotal, cartCount } = useCart();
+  const { user, isLoading } = useUser();
   const { toast } = useToast();
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
+  const [customerPhone, setCustomerPhone] = useState('9876543210');
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    if (!isMounted) {
+    if (!isMounted || isLoading) {
       return;
     }
 
-    if (cartCount === 0) {
-      // This part of the code is intentionally left simple for now.
-      // In a real app, you might want to show a more elaborate "empty cart" page.
+    if (!user) {
+      router.replace('/login');
+      return;
+    }
+
+    if (cartCount === 0 && !orderPlaced) {
       router.replace('/');
     }
-  }, [cartCount, isMounted, router]);
+  }, [cartCount, isMounted, isLoading, orderPlaced, router, user]);
 
-  if (!isMounted || cartCount === 0) {
+  if (!isMounted || isLoading || !user || (cartCount === 0 && !orderPlaced)) {
     return null;
   }
 
   const handlePlaceOrder = () => {
-    // In a real app, you would process payment and create an order here.
+    setOrderPlaced(true);
     toast({
-      title: 'Order Placed!',
-      description: 'Thank you for your purchase. Your heritage items are on their way!',
+      title: 'Order placed',
+      description: 'Test order confirmation shown successfully.',
     });
-    clearCart();
-    router.push('/');
   };
+
+  if (orderPlaced) {
+    return (
+      <div className="container mx-auto flex min-h-[70vh] items-center justify-center px-4 py-8 md:px-6 md:py-12">
+        <Card className="w-full max-w-2xl parchment text-center">
+          <CardHeader>
+            <CardTitle className="font-headline text-3xl md:text-4xl">Your Order Is Placed</CardTitle>
+            <CardDescription className="text-base md:text-lg">
+              Please stay connected with us.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3 text-foreground/90">
+            <p>Thank you.</p>
+            <p>You will be contacted soon on your number: {customerPhone}.</p>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <Button asChild>
+              <Link href="/">Back to Home</Link>
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
@@ -71,29 +100,40 @@ export default function CheckoutPage() {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" placeholder="Your Name" />
+                    <Input id="name" placeholder="Your Name" defaultValue="Test Customer" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="you@example.com" />
+                    <Input id="email" type="email" placeholder="you@example.com" defaultValue="test.customer@example.com" />
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="address">Address</Label>
-                  <Input id="address" placeholder="123 Heritage Lane" />
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone Number</Label>
+                    <Input
+                      id="phone"
+                      placeholder="9876543210"
+                      value={customerPhone}
+                      onChange={(event) => setCustomerPhone(event.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Address</Label>
+                    <Input id="address" placeholder="123 Heritage Lane" defaultValue="123 Heritage Lane" />
+                  </div>
                 </div>
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="city">City</Label>
-                    <Input id="city" placeholder="Jaipur" />
+                    <Input id="city" placeholder="Jaipur" defaultValue="Jaipur" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="state">State</Label>
-                    <Input id="state" placeholder="Rajasthan" />
+                    <Input id="state" placeholder="Rajasthan" defaultValue="Rajasthan" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="zip">PIN Code</Label>
-                    <Input id="zip" placeholder="302001" />
+                    <Input id="zip" placeholder="302001" defaultValue="302001" />
                   </div>
                 </div>
               </div>
@@ -107,29 +147,29 @@ export default function CheckoutPage() {
                     <RadioGroupItem value="online" id="payment-online" />
                     <CreditCard className="h-6 w-6" />
                     <div className="flex flex-col">
-                        <span className="font-semibold">Pay Online</span>
-                        <span className="text-sm text-muted-foreground">Use credit/debit card, UPI, or net banking.</span>
+                      <span className="font-semibold">Pay Online</span>
+                      <span className="text-sm text-muted-foreground">Use credit/debit card, UPI, or net banking.</span>
                     </div>
                   </Label>
                   <Label htmlFor="payment-cod" className="flex items-center gap-4 rounded-md border p-4 cursor-pointer hover:bg-muted/50 has-[[data-state=checked]]:border-primary has-[[data-state=checked]]:ring-1 has-[[data-state=checked]]:ring-primary">
                     <RadioGroupItem value="cod" id="payment-cod" />
                     <Truck className="h-6 w-6" />
-                     <div className="flex flex-col">
-                        <span className="font-semibold">Cash on Delivery</span>
-                        <span className="text-sm text-muted-foreground">Pay when your order arrives.</span>
+                    <div className="flex flex-col">
+                      <span className="font-semibold">Cash on Delivery</span>
+                      <span className="text-sm text-muted-foreground">Pay when your order arrives.</span>
                     </div>
                   </Label>
                 </RadioGroup>
               </div>
             </CardContent>
             <CardFooter>
-               <Button size="lg" className="w-full" onClick={handlePlaceOrder}>
-                Place Order (Ã¢â€šÂ¹{subtotal.toFixed(2)})
+              <Button size="lg" className="w-full" onClick={handlePlaceOrder}>
+                Place Order (Rs {subtotal.toFixed(2)})
               </Button>
             </CardFooter>
           </Card>
         </div>
-        
+
         <div className="lg:col-span-1">
           <Card className="parchment sticky top-24">
             <CardHeader>
@@ -137,29 +177,24 @@ export default function CheckoutPage() {
               <CardDescription>{cartCount} item(s)</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                <div className="flex flex-col gap-4 max-h-64 overflow-y-auto pr-2">
-                    {cart.map(item => (
-                        <div key={item.product.id} className="flex items-center gap-4">
-                        <div className="relative h-16 w-16 overflow-hidden rounded-md border">
-                            <Image
-                            src={item.product.image}
-                            alt={item.product.name}
-                            fill
-                            className="object-cover"
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <h4 className="font-semibold text-sm line-clamp-1">{item.product.name}</h4>
-                            <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
-                        </div>
-                        <p className="font-medium text-sm">Ã¢â€šÂ¹{(item.product.price * item.quantity).toFixed(2)}</p>
-                        </div>
-                    ))}
-                </div>
+              <div className="flex flex-col gap-4 max-h-64 overflow-y-auto pr-2">
+                {cart.map((item) => (
+                  <div key={item.product.id} className="flex items-center gap-4">
+                    <div className="relative h-16 w-16 overflow-hidden rounded-md border">
+                      <Image src={item.product.image} alt={item.product.name} fill className="object-cover" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-sm line-clamp-1">{item.product.name}</h4>
+                      <p className="text-sm text-muted-foreground">Qty: {item.quantity}</p>
+                    </div>
+                    <p className="font-medium text-sm">Rs {(item.product.price * item.quantity).toFixed(2)}</p>
+                  </div>
+                ))}
+              </div>
               <Separator />
               <div className="flex justify-between font-semibold text-lg">
                 <span>Total</span>
-                <span>Ã¢â€šÂ¹{subtotal.toFixed(2)}</span>
+                <span>Rs {subtotal.toFixed(2)}</span>
               </div>
             </CardContent>
           </Card>

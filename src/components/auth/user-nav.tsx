@@ -16,18 +16,29 @@ import { useAuth } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { LogOut, User as UserIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export function UserNav() {
   const { user } = useUser();
   const auth = useAuth();
+  const [accountHref, setAccountHref] = useState('/account');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const role = window.localStorage.getItem('loginRole');
+    setAccountHref(role === 'artisan' ? '/artisan-account' : '/account');
+  }, []);
 
   if (!user) {
     return null;
   }
-  
+
   const handleSignOut = async () => {
     await signOut(auth);
-  }
+  };
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return 'U';
@@ -36,7 +47,7 @@ export function UserNav() {
       return names[0][0] + names[names.length - 1][0];
     }
     return name[0];
-  }
+  };
 
   return (
     <DropdownMenu>
@@ -52,15 +63,13 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.displayName || 'User'}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {user.email}
-            </p>
+            <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
-            <Link href="/account">
+            <Link href={accountHref}>
               <UserIcon className="mr-2 h-4 w-4" />
               <span>Account</span>
             </Link>
@@ -75,5 +84,3 @@ export function UserNav() {
     </DropdownMenu>
   );
 }
-
-    

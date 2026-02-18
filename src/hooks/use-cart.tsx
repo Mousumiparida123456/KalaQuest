@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useMemo } from 'react';
 import type { Product } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
+import { useUser } from '@/firebase/auth/use-user';
 
 export type CartItem = {
   product: Product;
@@ -24,12 +25,22 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const { toast } = useToast();
+  const { user } = useUser();
 
   const addToCart = (product: Product) => {
-    setCart(prevCart => {
-      const existingItem = prevCart.find(item => item.product.id === product.id);
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        title: 'Login required',
+        description: 'Please login to add items to your cart.',
+      });
+      return;
+    }
+
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.product.id === product.id);
       if (existingItem) {
-        return prevCart.map(item =>
+        return prevCart.map((item) =>
           item.product.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
@@ -37,14 +48,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       }
       return [...prevCart, { product, quantity: 1 }];
     });
+
     toast({
-      title: "Added to cart",
+      title: 'Added to cart',
       description: `${product.name} has been added to your cart.`,
     });
   };
 
   const removeFromCart = (productId: string) => {
-    setCart(prevCart => prevCart.filter(item => item.product.id !== productId));
+    setCart((prevCart) => prevCart.filter((item) => item.product.id !== productId));
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
@@ -52,13 +64,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeFromCart(productId);
       return;
     }
-    setCart(prevCart =>
-      prevCart.map(item =>
+    setCart((prevCart) =>
+      prevCart.map((item) =>
         item.product.id === productId ? { ...item, quantity } : item
       )
     );
   };
-  
+
   const clearCart = () => {
     setCart([]);
   };

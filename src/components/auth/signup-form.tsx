@@ -19,6 +19,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PasswordInput } from '../ui/password-input';
 import { useAuth } from '@/firebase';
+import { cn } from '@/lib/utils';
+
+type SignupRole = 'user' | 'artisan';
 
 const formSchema = z.object({
   email: z.string().email({
@@ -33,6 +36,7 @@ export function SignupForm() {
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState<SignupRole>('user');
   const auth = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,11 +51,19 @@ export function SignupForm() {
     setIsLoading(true);
     try {
       await createUserWithEmailAndPassword(auth, values.email, values.password);
+
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('loginRole', role);
+      }
+
       toast({
         title: 'Account Created',
-        description: "Welcome! You've been successfully signed up.",
+        description: role === 'artisan'
+          ? "Your artisan account is ready."
+          : "Welcome! You've been successfully signed up.",
       });
-      router.push('/account');
+
+      router.push(role === 'artisan' ? '/artisan-account' : '/account');
     } catch (error: any) {
       console.error(error);
       toast({
@@ -67,6 +79,28 @@ export function SignupForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-2">
+          <FormLabel>Sign Up As</FormLabel>
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              type="button"
+              variant={role === 'user' ? 'default' : 'outline'}
+              onClick={() => setRole('user')}
+              className={cn('w-full')}
+            >
+              User
+            </Button>
+            <Button
+              type="button"
+              variant={role === 'artisan' ? 'default' : 'outline'}
+              onClick={() => setRole('artisan')}
+              className={cn('w-full')}
+            >
+              Artisan
+            </Button>
+          </div>
+        </div>
+
         <FormField
           control={form.control}
           name="email"
@@ -87,18 +121,16 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="••••••••" {...field} />
+                <PasswordInput placeholder="********" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Creating Account...' : 'Create Account'}
+          {isLoading ? 'Creating Account...' : `Create ${role === 'artisan' ? 'Artisan' : 'User'} Account`}
         </Button>
       </form>
     </Form>
   );
 }
-
-    
