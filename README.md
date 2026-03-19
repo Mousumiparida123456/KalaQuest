@@ -2,7 +2,7 @@
 Kala Quest is an interactive web platform where users explore Indian heritage through story-based quests, culture-inspired games, and direct engagement with artisans, while supporting traditional crafts through a built-in marketplace and opportunities system.
 
 ## Live Demo
-https://kalaquest-mu.vercel.app
+- https://kalaquest-mu.vercel.app
 
 ## Features
 - Mystery-driven quests with collectible clues
@@ -17,16 +17,25 @@ Login -> Dashboard -> Featured Crafts -> Story Quest -> Interactive Play -> Cult
 
 ## Screenshots
 ### Home Page
-![Home Page](docs/screenshots/home.png)
+![Home Page](docs/screenshots/Main-page.png)
 
 ### Featured Crafts
-![Featured Crafts](docs/screenshots/featured-crafts.png)
+![Featured Crafts](docs/screenshots/Featured-Crafts.png)
 
 ### Quest Experience
-![Quest Experience](docs/screenshots/quest.png)
+![Quest Experience](docs/screenshots/Current-Quest-And-Games.png)
 
-### Play with Heritage
-![Play with Heritage](docs/screenshots/play-with-heritage.png)
+### Plan A Visit
+![Plan A visit](docs/screenshots/Plan-A-Visit.png)
+
+### Mystery Stories
+![Mystery Stories](docs/screenshots/Mystery-Stories.png)
+
+### Meet the artisans
+![Meet the artisans](docs/screenshots/Meet-the-artisans.png)
+
+### Opportunities
+![Opportunities](docs/screenshots/Opportunities.png)
 
 ## What Kala Quest Does (At a Glance)
 Opens with a personalized dashboard featuring curated crafts and active learning quests
@@ -120,3 +129,8 @@ If a chat message starts with `remember ...`, it is auto-stored as memory.
 - `src/firebase` - Firebase configuration and helpers
 - `src/ai` - Genkit setup, chatbot logic, vector memory
 - `docs` - product blueprint and backend notes
+
+## Contributors:
+This project was developed as a group project by:
+- Mousumi Parida
+- Poorvajaa S
