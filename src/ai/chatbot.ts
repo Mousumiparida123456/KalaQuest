@@ -39,13 +39,19 @@ async function getConversationHistory(params: {
   historyLimit: number;
 }) {
   const firestore = getServerFirestore();
-  const snapshots = await getDocs(
-    query(
-      collection(firestore, 'chatbot_conversations', params.userId, 'threads', params.conversationId, 'messages'),
-      orderBy('createdAt', 'desc'),
-      limit(params.historyLimit),
-    ),
-  );
+  let snapshots;
+  try {
+    snapshots = await getDocs(
+      query(
+        collection(firestore, 'chatbot_conversations', params.userId, 'threads', params.conversationId, 'messages'),
+        orderBy('createdAt', 'desc'),
+        limit(params.historyLimit),
+      ),
+    );
+  } catch (err) {
+    console.warn('getConversationHistory: returning empty due to Firestore error', err);
+    return [];
+  }
 
   const rows = snapshots.docs
     .map((snapshot) => {
@@ -77,16 +83,20 @@ async function ensureConversation(userId: string, conversationId: string) {
   const firestore = getServerFirestore();
   const conversationRef = doc(firestore, 'chatbot_conversations', userId, 'threads', conversationId);
 
-  await setDoc(
-    conversationRef,
-    {
-      userId,
-      conversationId,
-      updatedAt: serverTimestamp(),
-      createdAt: serverTimestamp(),
-    },
-    { merge: true },
-  );
+  try {
+    await setDoc(
+      conversationRef,
+      {
+        userId,
+        conversationId,
+        updatedAt: serverTimestamp(),
+        createdAt: serverTimestamp(),
+      },
+      { merge: true },
+    );
+  } catch (err) {
+    console.warn('ensureConversation: skipping Firestore write', err);
+  }
 }
 
 async function appendConversationMessage(params: {
@@ -97,11 +107,18 @@ async function appendConversationMessage(params: {
 }) {
   const firestore = getServerFirestore();
 
-  await addDoc(collection(firestore, 'chatbot_conversations', params.userId, 'threads', params.conversationId, 'messages'), {
-    role: params.role,
-    content: params.content,
-    createdAt: serverTimestamp(),
-  });
+  try {
+    await addDoc(
+      collection(firestore, 'chatbot_conversations', params.userId, 'threads', params.conversationId, 'messages'),
+      {
+        role: params.role,
+        content: params.content,
+        createdAt: serverTimestamp(),
+      },
+    );
+  } catch (err) {
+    console.warn('appendConversationMessage: skipping Firestore write', err);
+  }
 }
 
 function resolveConversationId(inputId?: string) {

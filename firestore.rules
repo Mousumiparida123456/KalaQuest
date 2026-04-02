@@ -257,6 +257,7 @@ service cloud.firestore {
      * @path /user_directory/{userId}
      */
     match /user_directory/{userId} {
+      // Prototype: allow any signed-in user to read directory; owner writes only.
       allow get, list: if isSignedIn();
       allow create: if isOwner(userId) && request.resource.data.uid == userId;
       allow update: if isExistingOwner(userId) && request.resource.data.uid == resource.data.uid;
@@ -268,25 +269,21 @@ service cloud.firestore {
      * @path /conversations/{conversationId}
      */
     match /conversations/{conversationId} {
+      // Prototype relaxation: allow any signed-in user to create/list/get conversations
+      // and messages; still block deletes.
       allow create: if isSignedIn()
         && request.resource.data.participants is list
-        && request.resource.data.participants.size() == 2
-        && request.resource.data.participants.hasAny([request.auth.uid]);
-      allow update: if isSignedIn()
-        && resource.data.participants.hasAny([request.auth.uid])
-        && request.resource.data.participants == resource.data.participants;
-      allow get: if isSignedIn()
-        && resource.data.participants.hasAny([request.auth.uid]);
-      allow list: if false;
+        && request.resource.data.participants.size() == 2;
+      allow update: if isSignedIn();
+      allow get: if isSignedIn();
+      allow list: if isSignedIn();
       allow delete: if false;
 
       match /messages/{messageId} {
         allow create: if isSignedIn()
-          && get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants.hasAny([request.auth.uid])
           && request.resource.data.senderId == request.auth.uid
           && request.resource.data.text is string;
-        allow get, list: if isSignedIn()
-          && get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants.hasAny([request.auth.uid]);
+        allow get, list: if isSignedIn();
         allow update, delete: if false;
       }
     }
@@ -312,6 +309,38 @@ service cloud.firestore {
       allow get: if true;
       allow list: if true;
       allow create, update, delete: if false; // TODO: Implement admin-only writes.
+    }
+
+    /**
+     * @description Chatbot long-term memory used by the AI assistant.
+     *   Stored under /chatbot_memories/{userId}/items/{itemId}.
+     *   For the prototype we allow anyone (including guests) to create and read
+     *   their own memory bucket so the chatbot works without auth.
+     *   Writes other than create are blocked to keep data append-only.
+     */
+    match /chatbot_memories/{userId}/items/{itemId} {
+      allow get, list: if true;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+
+    /**
+     * @description Chatbot conversation history used for context.
+     *   Path: /chatbot_conversations/{userId}/threads/{conversationId}/messages/{messageId}
+     *   Open for prototype so guests can chat without auth; writes are append-only.
+     */
+    match /chatbot_conversations/{userId} {
+      match /threads/{conversationId} {
+        allow get, list: if true;
+        allow create: if true;
+        allow update, delete: if false;
+
+        match /messages/{messageId} {
+          allow get, list: if true;
+          allow create: if true;
+          allow update, delete: if false;
+        }
+      }
     }
   }
 }

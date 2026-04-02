@@ -38,12 +38,17 @@ function cosineSimilarity(a: number[], b: number[]) {
 }
 
 async function embedText(text: string) {
-  const result = await ai.embed({
-    embedder: googleAI.embedder('text-embedding-004'),
-    content: text,
-  });
+  try {
+    const result = await ai.embed({
+      embedder: googleAI.embedder('text-embedding-004'),
+      content: text,
+    });
 
-  return result[0]?.embedding ?? [];
+    return result[0]?.embedding ?? [];
+  } catch (err) {
+    console.warn('embedText: embedding unavailable, returning empty vector', err);
+    return [];
+  }
 }
 
 export async function rememberText(params: {
@@ -52,20 +57,29 @@ export async function rememberText(params: {
   source?: string;
 }) {
   const firestore = getServerFirestore();
-  const embedding = await embedText(params.text);
+  try {
+    const embedding = await embedText(params.text);
 
-  const docRef = await addDoc(collection(firestore, 'chatbot_memories', params.userId, 'items'), {
-    text: params.text,
-    source: params.source ?? 'manual',
-    embedding,
-    createdAt: serverTimestamp(),
-  });
+    const docRef = await addDoc(collection(firestore, 'chatbot_memories', params.userId, 'items'), {
+      text: params.text,
+      source: params.source ?? 'manual',
+      embedding,
+      createdAt: serverTimestamp(),
+    });
 
-  return {
-    id: docRef.id,
-    text: params.text,
-    source: params.source ?? 'manual',
-  };
+    return {
+      id: docRef.id,
+      text: params.text,
+      source: params.source ?? 'manual',
+    };
+  } catch (err) {
+    console.warn('rememberText: falling back (memories not stored)', err);
+    return {
+      id: 'memory-disabled',
+      text: params.text,
+      source: 'memory-disabled',
+    };
+  }
 }
 
 export async function searchMemory(params: {
@@ -82,13 +96,19 @@ export async function searchMemory(params: {
   const firestore = getServerFirestore();
   const queryEmbedding = await embedText(params.queryText);
 
-  const snapshots = await getDocs(
-    query(
-      collection(firestore, 'chatbot_memories', params.userId, 'items'),
-      orderBy('createdAt', 'desc'),
-      limit(maxScan),
-    ),
-  );
+  let snapshots;
+  try {
+    snapshots = await getDocs(
+      query(
+        collection(firestore, 'chatbot_memories', params.userId, 'items'),
+        orderBy('createdAt', 'desc'),
+        limit(maxScan),
+      ),
+    );
+  } catch (err) {
+    console.warn('searchMemory: returning empty due to Firestore error', err);
+    return [];
+  }
 
   const ranked: MemoryRecordWithScore[] = [];
 

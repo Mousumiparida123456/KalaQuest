@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -63,7 +63,17 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      const credential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      let credential;
+      try {
+        credential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      } catch (err: any) {
+        const code = err?.code as string | undefined;
+        if (code === 'auth/user-not-found' || code === 'auth/invalid-credential') {
+          credential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        } else {
+          throw err;
+        }
+      }
       const user = credential.user;
       const userSnap = await getDoc(doc(firestore, 'users', user.uid));
       const storedRoleRaw = userSnap.exists() ? userSnap.data()?.role : undefined;
